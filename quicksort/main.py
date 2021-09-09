@@ -1,3 +1,6 @@
+'''
+Quicksort, runs at worst O(n), at best O(n log n)
+'''
 
 '''modified quicksort to accept the tuple of url to count'''
 def quicksort(xs):
