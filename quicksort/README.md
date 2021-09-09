@@ -4,7 +4,7 @@ Parses an apache log file, counts the number of times a URL is seen - then uses 
 
 Quicksort, runs at worst O(n), at best O(n log n)
 
-In total, this program parses the whole log at O(n), then does a quicksort of at worst O(n log n). In total this program runs at 
+In total, this program parses the whole log at O(n), then does a quicksort of at worst O(n log n). In total this program runs at O(n)
 
 ```
 λ python3 main.py 
