@@ -93,8 +93,6 @@ def tail_file():
                 if line == '':
                     continue
                 process_line(line, url_dict, tick)
-
-
         time.sleep(1/100.0)
     x = threading.Thread(target=thread_function, args=(url_dict, f, tick))
     x.start()
