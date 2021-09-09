@@ -22,7 +22,7 @@ def quicksort(xs):
     else: 
         return xs # empty list
 
-
+'''
 def linearsort(url_dict,url_array):
     url_dict_copy = url_dict.copy()
     top_five = []
@@ -35,10 +35,13 @@ def linearsort(url_dict,url_array):
             if value > highest_value:
                 highest_value = value
                 highest_value_key = key
+        if highest_value_key == None:
+            continue
         top_five.append((highest_value, highest_value_key))
+        print(top_five)
         del(url_dict_copy[highest_value_key])
     return top_five
-
+'''
 
 def process_line(line, url_dict, tick):
     split_line = str(line).split(' ')
@@ -60,17 +63,17 @@ def display_results(url_dict, tick):
         end = time.time()
         quick_sort_time = end - start
         ''' linear sort '''
-        start = time.time()
-        url_array = [(url_dict[key], key) for key in url_dict.keys()]
-        sorted_urls = quicksort(url_array)
-        end = time.time()
-        linear_sort_time = end - start
+        #start = time.time()
+        #url_array = [(url_dict[key], key) for key in url_dict.keys()]
+        #sorted_urls = linearsort(url_dict,url_array)
+        #end = time.time()
+        #linear_sort_time = end - start
         for u in sorted_urls[::-1][0:5]:
             print(u[0], u[1])
         print(tick['tick'])
         print("==="*10)
         print("Quicksort Runtime:", quick_sort_time)
-        print("Linear sort Runtime:", linear_sort_time)
+        #print("Linear sort Runtime:", linear_sort_time)
         time.sleep(1)
 
 
