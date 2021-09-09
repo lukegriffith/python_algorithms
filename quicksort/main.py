@@ -1,6 +1,12 @@
 '''
 Quicksort, runs at worst O(n), at best O(n log n)
 '''
+import time
+import subprocess
+import select
+import os
+
+LOG_FILE = 'apache_logs.txt'
 
 '''modified quicksort to accept the tuple of url to count'''
 def quicksort(xs):
@@ -15,22 +21,32 @@ def quicksort(xs):
     else: 
         return xs # empty list
 
-def main():
-    f = open('apache_logs.txt','r')
-    file = f.read()
-    lines = file.split('\n')
+def tail_file():
+    f = subprocess.Popen(['tail','-F',LOG_FILE],\
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    p = select.poll()
+    p.register(f.stdout)
     url_dict = {}
-    for line in lines:
-        if line == '':
-            continue
-        split_line = line.split(' ')
-        url = split_line[6]
-        if url in url_dict:
-            url_dict[url] = url_dict[url] + 1
-        else:
-            url_dict[url] = 1
-    url_array = [(url_dict[key], key) for key in url_dict.keys()]
-    sorted_urls = quicksort(url_array)
-    for u in sorted_urls[::-1][0:5]:
-        print(u[0], u[1])
-main()
+    while True:
+        if p.poll(1):
+            line = f.stdout.readline()
+            if line == '':
+                continue
+            split_line = str(line).split(' ')
+            url = split_line[6]
+            if url in url_dict:
+                url_dict[url] = url_dict[url] + 1
+            else:
+                url_dict[url] = 1
+
+            url_array = [(url_dict[key], key) for key in url_dict.keys()]
+            sorted_urls = quicksort(url_array)
+            for u in sorted_urls[::-1][0:5]:
+                print(u[0], u[1])
+            print("==="*10)
+
+        time.sleep(0.1)
+
+
+
+tail_file()
